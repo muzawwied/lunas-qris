@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dokumentasi API — Lunas QRIS</title>
+<meta name="description" content="Dokumentasi API Lunas: buat QRIS dinamis, cek status pembayaran, dan terima webhook settlement.">
+<meta name="theme-color" content="#f7f4ee">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .doc { display: grid; grid-template-columns: 220px 1fr; gap: clamp(28px, 5vw, 60px); align-items: start; padding: clamp(44px, 6vw, 76px) 0 90px; }
+  .doc__nav { position: sticky; top: 100px; display: grid; gap: 12px; font-size: 13.5px; }
+  .doc__nav a { color: var(--muted); transition: color .2s ease; }
+  .doc__nav a:hover { color: var(--ink); }
+  .doc__nav b { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+  .doc h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(24px, 3vw, 32px); margin: 54px 0 14px; letter-spacing: -.01em; }
+  .doc h2:first-of-type { margin-top: 0; }
+  .doc h3 { font-size: 16px; margin: 30px 0 10px; }
+  .doc p { color: var(--ink-soft); font-size: 15px; }
+  .doc ul { color: var(--ink-soft); font-size: 14.5px; padding-left: 20px; }
+  pre {
+    background: #17160f; color: #e8e3d6; border-radius: 6px; padding: 20px 22px;
+    overflow-x: auto; font-size: 13px; line-height: 1.65; margin: 16px 0 22px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+  .doc p code, .doc li code, .doc td code { background: rgba(23,22,15,.06); padding: 2px 6px; border-radius: 3px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 14px 0 24px; }
+  th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .note { border-left: 2px solid var(--money); background: rgba(28,92,60,.06); padding: 14px 18px; font-size: 13.5px; color: var(--ink-soft); margin: 18px 0; }
+  @media (max-width: 900px) { .doc { grid-template-columns: 1fr; } .doc__nav { position: static; grid-auto-flow: column; overflow-x: auto; } }
+</style>
+</head>
+<body>
+
+<header class="nav is-stuck">
+  <div class="wrap nav__inner">
+    <a class="brand" href="index.html"><span class="brand__mark">L</span> Lunas</a>
+    <nav class="nav__links">
+      <a href="index.html#produk">Produk</a>
+      <a href="index.html#demo">Coba QRIS</a>
+      <a href="index.html#harga">Harga</a>
+      <a href="index.html#tanya">Tanya</a>
+      <a href="api.html" style="color:var(--ink)">Dokumentasi</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn--sm" href="index.html#daftar">Mulai terima QRIS</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap doc">
+  <aside class="doc__nav">
+    <b>Mulai</b>
+    <a href="#mulai">Ringkasan</a>
+    <a href="#auth">Autentikasi</a>
+    <a href="#qr">Buat QRIS</a>
+    <a href="#status">Cek status</a>
+    <a href="#webhook">Webhook</a>
+    <a href="#uji">Kode uji</a>
+  </aside>
+
+  <div>
+    <p class="eyebrow">Dokumentasi</p>
+    <h1 class="h2">API Lunas</h1>
+    <p class="lead" style="margin-top:14px">Tiga endpoint untuk menerima pembayaran QRIS dari aplikasi atau toko online-mu: buat tagihan, cek status, dan terima notifikasi settlement.</p>
+
+    <h2 id="mulai">Ringkasan</h2>
+    <p>Semua permintaan memakai JSON melalui HTTPS. Base URL:</p>
+    <pre>https://api.lunas.id/v1</pre>
+    <div class="note">Dokumentasi ini adalah contoh halaman produk. Kunci API di bawah hanya placeholder.</div>
+
+    <h2 id="auth">Autentikasi</h2>
+    <p>Setiap permintaan menyertakan API key rahasia di header <code>Authorization</code>. Jangan pernah menaruh kunci ini di kode frontend.</p>
+    <pre>Authorization: Bearer sk_live_xxxxxxxxxxxxx</pre>
+
+    <h2 id="qr">Buat QRIS</h2>
+    <p><code>POST /payments</code> membuat tagihan dan mengembalikan payload QRIS siap tampil.</p>
+
+    <table>
+      <thead><tr><th>Field</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+      <tbody>
+        <tr><td><code>amount</code></td><td>integer</td><td>Nominal dalam rupiah, minimal 1000.</td></tr>
+        <tr><td><code>reference</code></td><td>string</td><td>ID pesanan milikmu, unik.</td></tr>
+        <tr><td><code>description</code></td><td>string</td><td>Keterangan yang tampil ke pembeli.</td></tr>
+        <tr><td><code>expires_in</code></td><td>integer</td><td>Masa berlaku dalam detik, default 900.</td></tr>
+      </tbody>
+    </table>
+
+    <pre>curl -X POST https://api.lunas.id/v1/payments \
+  -H "Authorization: Bearer sk_live_xxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 384000,
+    "reference": "INV-2098",
+    "description": "Kopi Susu 2x - Croissant",
+    "expires_in": 900
+  }'</pre>
+
+    <pre>{
+  "id": "pay_9f2c1a",
+  "reference": "INV-2098",
+  "amount": 384000,
+  "fee": 2688,
+  "net_amount": 381312,
+  "status": "pending",
+  "qr_string": "00020101021226670016COM.LUNAS.WWW0118...",
+  "qr_image_url": "https://api.lunas.id/v1/qr/pay_9f2c1a.png",
+  "expires_at": "2026-11-17T13:45:00Z"
+}</pre>
+
+    <h2 id="status">Cek status</h2>
+    <p><code>GET /payments/{id}</code> mengembalikan status terkini. Gunakan ini sebagai cadangan bila webhook terlewat.</p>
+    <pre>curl https://api.lunas.id/v1/payments/pay_9f2c1a \
+  -H "Authorization: Bearer sk_live_xxxxx"</pre>
+
+    <p>Nilai <code>status</code> yang mungkin:</p>
+    <ul>
+      <li><code>pending</code> — QR sudah dibuat, belum dibayar</li>
+      <li><code>paid</code> — pembayaran diterima, dana tercatat</li>
+      <li><code>expired</code> — melewati masa berlaku</li>
+      <li><code>refunded</code> — dana dikembalikan ke pembeli</li>
+    </ul>
+
+    <h2 id="webhook">Webhook</h2>
+    <p>Lunas mengirim POST ke URL notifikasi milikmu saat status berubah. Selalu balas dengan HTTP 200 dalam 5 detik; bila gagal, kami mencoba ulang 5 kali dengan jeda bertahap.</p>
+    <pre>{
+  "event": "payment.paid",
+  "created_at": "2026-11-17T12:31:08Z",
+  "data": {
+    "id": "pay_9f2c1a",
+    "reference": "INV-2098",
+    "amount": 384000,
+    "fee": 2688,
+    "net_amount": 381312,
+    "method": "QRIS",
+    "issuer": "gopay",
+    "paid_at": "2026-11-17T12:31:06Z"
+  }
+}</pre>
+    <p>Verifikasi keaslian dengan header <code>X-Lunas-Signature</code> (HMAC SHA-256 dari body memakai webhook secret).</p>
+
+    <h2 id="uji">Kode uji</h2>
+    <p>Gunakan kunci <code>sk_test_</code> untuk mencoba alur penuh tanpa uang sungguhan. Nominal khusus memicu skenario:</p>
+    <table>
+      <thead><tr><th>Nominal</th><th>Hasil</th></tr></thead>
+      <tbody>
+        <tr><td>1000</td><td>Pembayaran sukses</td></tr>
+        <tr><td>1001</td><td>Pembayaran ditolak penerbit</td></tr>
+        <tr><td>1002</td><td>QR kedaluwarsa sebelum dibayar</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:40px"><a class="link-u" href="index.html">Kembali ke beranda</a></p>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__bottom" style="margin-top:0;border-top:0;padding-top:0">
+      <span>© 2026 Lunas. Contoh halaman produk.</span>
+      <span><a href="legal.html">Syarat &amp; privasi</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

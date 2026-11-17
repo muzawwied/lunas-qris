@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lunas — Payment Gateway QRIS untuk Penjual Indonesia</title>
+<meta name="description" content="Terima pembayaran QRIS dari semua e-wallet dan mobile banking. Dana masuk rekening T+1, biaya 0,7% per transaksi, tanpa biaya bulanan. API, plugin toko online, dan dashboard rekonsiliasi.">
+<meta name="theme-color" content="#f7f4ee">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lunas — Payment Gateway QRIS">
+<meta property="og:description" content="Satu QRIS untuk semua pembayaran. Dana masuk rekening, bukan di aplikasi.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ======================= NAV ======================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#atas" aria-label="Lunas, ke atas">
+      <span class="brand__mark">L</span>
+      Lunas
+    </a>
+
+    <nav class="nav__links" id="navLinks">
+      <a href="#produk">Produk</a>
+      <a href="#cara">Cara kerja</a>
+      <a href="#demo">Coba QRIS</a>
+      <a href="#harga">Harga</a>
+      <a href="#tanya">Tanya</a>
+      <a href="api.html">Dokumentasi</a>
+    </nav>
+
+    <div class="nav__cta">
+      <a class="btn btn--sm" href="#harga">Mulai terima QRIS</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="atas">
+
+<!-- ======================= HERO ======================= -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div data-reveal>
+      <p class="eyebrow">Payment gateway QRIS · Bank Indonesia</p>
+      <h1 class="h1">Uang masuk.<br>Bukan cuma<br><em>tercatat.</em></h1>
+      <p class="lead">
+        Satu QRIS untuk semua e-wallet, mobile banking, dan kartu. Dana pembeli
+        langsung masuk rekening usahamu keesokan hari — bukan mengendap di aplikasi
+        pihak ketiga selama seminggu.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn" href="#harga">
+          Mulai terima QRIS
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="link-u" href="#demo">
+          Lihat QRIS berjalan
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="hero__note">
+        <span><i class="dot"></i> Biaya 0,7% per transaksi</span>
+        <span><i class="dot"></i> Settlement T+1</span>
+        <span><i class="dot"></i> Tanpa biaya bulanan</span>
+      </div>
+    </div>
+
+    <div data-reveal>
+      <div class="paycard">
+        <div class="paycard__head">
+          <span class="paycard__label">Tagihan · INV-2098</span>
+          <span class="paycard__badge"><i></i> Sudah dibayar</span>
+        </div>
+        <div class="paycard__body">
+          <div class="paycard__qr">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=0&data=https%3A%2F%2Flunas.id%2Fpay%2FINV-2098"
+                 alt="Contoh QRIS pembayaran" loading="eager" width="320" height="320">
+          </div>
+          <div>
+            <div class="paycard__amt">Rp 384.000</div>
+            <div class="paycard__sub">Kopi Susu 2× · Croissant · 1 pesanan</div>
+            <div class="paycard__rows">
+              <div class="paycard__row"><span>Metode</span><b>QRIS · GoPay</b></div>
+              <div class="paycard__row"><span>Biaya 0,7%</span><b>Rp 2.688</b></div>
+              <div class="paycard__row"><span>Masuk rekening</span><b>Rp 381.312</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="paycard__float">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          <span>Dana diteruskan ·<br><b>Rp 381.312</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marquee">
+      <span>Kedai kopi</span><span>Toko online</span><span>Laundry</span><span>Bakery</span>
+      <span>Barbershop</span><span>Katering</span><span>Butik</span><span>Toko bangunan</span>
+      <span>Petshop</span><span>Klinik</span><span>Bengkel</span><span>Kelas online</span>
+      <span>Kedai kopi</span><span>Toko online</span><span>Laundry</span><span>Bakery</span>
+      <span>Barbershop</span><span>Katering</span><span>Butik</span><span>Toko bangunan</span>
+      <span>Petshop</span><span>Klinik</span><span>Bengkel</span><span>Kelas online</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= INSIGHT ======================= -->
+<section class="section">
+  <div class="wrap insight">
+    <div data-reveal>
+      <p class="eyebrow">Masalah yang sering diabaikan</p>
+      <p class="insight__big">Omzet tercatat rapi,<br>tapi uangnya <em>belum tentu</em> sampai.</p>
+    </div>
+    <div class="insight__body" data-reveal>
+      <p>
+        Banyak penjual baru sadar ada masalah ketika laporan penjualan bilang untung,
+        sementara saldo rekening tidak bergerak. Penyebabnya klasik: dana tertahan di
+        aplikasi pembayaran, biaya transaksi tidak dihitung, dan pencairan baru bisa
+        diminta di hari kerja tertentu.
+      </p>
+      <p>
+        Lunas dibuat untuk menutup celah itu. Setiap transaksi langsung tercatat dengan
+        biaya yang terlihat di depan, lalu dana diteruskan ke rekening usahamu otomatis
+        tanpa perlu klik "cairkan" setiap hari.
+      </p>
+      <div class="insight__stat">
+        <div><b>0,7%</b><span>Biaya per transaksi, tanpa biaya tersembunyi</span></div>
+        <div><b>T+1</b><span>Dana masuk rekening hari kerja berikutnya</span></div>
+        <div><b>1 QRIS</b><span>Semua e-wallet &amp; mobile banking</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PRODUK ======================= -->
+<section class="section section--tint" id="produk">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <p class="eyebrow">Yang kamu dapat</p>
+      <h2 class="h2">Semua yang dibutuhkan untuk menerima uang.</h2>
+      <p class="lead">Bukan sekadar gambar QR. Ada pencatatan, notifikasi, rekonsiliasi, dan jalur integrasi untuk toko online.</p>
+    </div>
+
+    <div class="features" data-reveal>
+      <article class="feature">
+        <div class="feature__ic">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v3M17 20h4"/></svg>
+        </div>
+        <h3>QRIS statis &amp; dinamis</h3>
+        <p>Tempel satu QR di meja untuk nominal bebas, atau buat QR dinamis dengan nominal pas per pesanan lewat API.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__ic">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+        </div>
+        <h3>Notifikasi real-time</h3>
+        <p>Webhook dan notifikasi aplikasi terkirim begitu pembayaran lunas, lengkap dengan ID pesanan dan nominal.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__ic">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 3v6h-6"/></svg>
+        </div>
+        <h3>Settlement otomatis T+1</h3>
+        <p>Dana diteruskan ke rekening bank atau e-wallet usaha tanpa perlu pengajuan pencairan manual.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__ic">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5M16 13h3M16 17h3"/></svg>
+        </div>
+        <h3>Dashboard &amp; rekonsiliasi</h3>
+        <p>Filter per hari, ekspor CSV, dan cocokkan mutasi rekening dengan transaksi tanpa spreadsheet tambahan.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__ic">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h10M4 17h7"/><circle cx="18" cy="16" r="4"/></svg>
+        </div>
+        <h3>API &amp; plugin siap pakai</h3>
+        <p>REST API sederhana, library Node, dan plugin untuk WooCommerce, Laravel, serta toko berbasis custom.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__ic">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 4v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V7l7-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>Aman &amp; sesuai aturan</h3>
+        <p>Transaksi lewat jalur QRIS resmi, terenkripsi, dan diawasi. Dana tidak pernah singgah di rekening pribadi.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CARA KERJA ======================= -->
+<section class="section" id="cara">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <p class="eyebrow">Cara kerja</p>
+      <h2 class="h2">Tiga langkah, lalu selesai.</h2>
+    </div>
+
+    <div class="split">
+      <div class="steps" data-reveal>
+        <article class="step">
+          <span class="step__num">01</span>
+          <h3>Daftar &amp; verifikasi</h3>
+          <p>Isi data usaha, unggah KTP dan foto tempat usaha. Verifikasi biasanya selesai di hari yang sama.</p>
+        </article>
+        <article class="step">
+          <span class="step__num">02</span>
+          <h3>Pasang QR atau API</h3>
+          <p>Cetak QR untuk toko fisik, atau tempel satu endpoint ke halaman checkout-mu. Bahasa apa pun bisa.</p>
+        </article>
+        <article class="step">
+          <span class="step__num">03</span>
+          <h3>Terima &amp; cairkan otomatis</h3>
+          <p>Pembeli membayar, notifikasi masuk, dana diteruskan ke rekeningmu besok hari kerja tanpa kamu sentuh.</p>
+        </article>
+      </div>
+
+      <figure class="frame" data-reveal style="margin:0">
+        <img src="https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=1000&q=80"
+             alt="Pemilik usaha menerima pembayaran di meja kasir" loading="lazy">
+        <figcaption class="frame__cap">Pembayaran di kasir · selesai dalam 4 detik</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DEMO ======================= -->
+<section class="section section--tint" id="demo">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <p class="eyebrow">Coba sekarang</p>
+      <h2 class="h2">Buat QRIS percobaan di sini.</h2>
+      <p class="lead">Masukkan nominal, dan lihat persis apa yang diterima pembeli serta berapa yang masuk ke rekeningmu. Ini contoh tampilan, tanpa transaksi nyata.</p>
+    </div>
+
+    <div class="demo">
+      <form class="demo__form" id="demoForm" data-reveal onsubmit="return false;">
+        <div class="field">
+          <label for="demoAmount">Nominal tagihan (Rp)</label>
+          <input id="demoAmount" type="number" inputmode="numeric" min="1000" step="1000" value="384000" placeholder="Contoh: 150000">
+          <div class="field__hint">Minimal Rp 1.000. Nominal pas mempermudah rekonsiliasi.</div>
+        </div>
+
+        <div class="field">
+          <label for="demoNote">Keterangan pesanan</label>
+          <input id="demoNote" type="text" maxlength="60" value="Kopi Susu 2× · Croissant" placeholder="Contoh: Pesanan #1024">
+        </div>
+
+        <div class="field">
+          <label>Nominal cepat</label>
+          <div class="chips" id="demoChips">
+            <button type="button" class="chip" data-amount="25000">Rp 25.000</button>
+            <button type="button" class="chip" data-amount="75000">Rp 75.000</button>
+            <button type="button" class="chip" data-amount="150000">Rp 150.000</button>
+            <button type="button" class="chip is-active" data-amount="384000">Rp 384.000</button>
+            <button type="button" class="chip" data-amount="1250000">Rp 1.250.000</button>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:0">
+          <label for="demoMethod">Metode pembeli (simulasi)</label>
+          <select id="demoMethod">
+            <option>QRIS · GoPay</option>
+            <option>QRIS · OVO</option>
+            <option>QRIS · DANA</option>
+            <option>QRIS · ShopeePay</option>
+            <option>QRIS · BCA Mobile</option>
+            <option>QRIS · Livin' Mandiri</option>
+          </select>
+        </div>
+      </form>
+
+      <aside class="demo__qr" data-reveal>
+        <div class="paycard__label" style="margin-bottom:14px">QRIS · Lunas</div>
+        <img id="demoQrImg" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=0&data=https%3A%2F%2Flunas.id%2Fpay%2FINV-2098"
+             alt="QRIS contoh" width="210" height="210">
+        <div class="demo__amt" id="demoAmt">Rp 384.000</div>
+        <div class="demo__meta" id="demoMeta">Kopi Susu 2× · Croissant</div>
+
+        <div class="demo__breakdown">
+          <div class="paycard__row"><span>Biaya Lunas 0,7%</span><b id="demoFee">Rp 2.688</b></div>
+          <div class="paycard__row"><span>Masuk rekeningmu</span><b id="demoNet" class="money">Rp 381.312</b></div>
+          <div class="paycard__row"><span>Perkiraan cair</span><b>Besok, 10.00 WIB</b></div>
+        </div>
+
+        <button class="btn btn--ghost btn--sm" id="demoCopy" type="button" style="width:100%;margin-top:18px">
+          Salin link pembayaran
+        </button>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= KALKULATOR ======================= -->
+<section class="section section--ink">
+  <div class="wrap">
+    <div class="split">
+      <div data-reveal>
+        <p class="eyebrow">Hitung sendiri</p>
+        <h2 class="h2">Berapa yang tersisa<br>setelah biaya?</h2>
+        <p class="lead" style="margin-top:18px">
+          Geser omzet bulananmu. Angka di kanan adalah perkiraan dana bersih yang masuk
+          rekening dengan biaya 0,7% — dibandingkan dengan biaya 2% yang umum dikenakan
+          agregator.
+        </p>
+      </div>
+
+      <div class="calc" data-reveal>
+        <div class="calc__input">
+          <span>Rp</span>
+          <input id="calcInput" type="text" inputmode="numeric" value="25.000.000" aria-label="Omzet bulanan">
+        </div>
+        <input id="calcRange" type="range" min="1000000" max="300000000" step="500000" value="25000000" aria-label="Geser omzet">
+        <div class="calc__out">
+          <div>
+            <b id="calcLunas" class="money" style="color:#8fd3a9">Rp 24.825.000</b>
+            <span>Diterima dengan Lunas (0,7%)</span>
+          </div>
+          <div>
+            <b id="calcAgg">Rp 24.500.000</b>
+            <span>Agregator umum (2%)</span>
+          </div>
+          <div>
+            <b id="calcSave">Rp 325.000</b>
+            <span>Selisih masuk kantongmu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HARGA ======================= -->
+<section class="section" id="harga">
+  <div class="wrap">
+    <div class="section__head center" data-reveal>
+      <p class="eyebrow">Harga</p>
+      <h2 class="h2">Bayar dari transaksi,<br>bukan dari bulan.</h2>
+      <p class="lead">Tidak ada biaya pendaftaran, tidak ada biaya bulanan untuk paket dasar. Kamu hanya membayar saat ada uang masuk.</p>
+    </div>
+
+    <div class="plans" data-reveal>
+      <article class="plan">
+        <span class="plan__tag">Untuk yang baru mulai</span>
+        <h3 class="plan__name">Warung</h3>
+        <p class="plan__desc">Satu QRIS untuk toko fisik. Cocok untuk usaha yang baru menerima pembayaran non-tunai.</p>
+        <div class="plan__price"><b>0,7%</b><span>/ transaksi</span></div>
+        <ul class="plan__feat">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> QRIS statis cetak &amp; digital</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Settlement otomatis T+1</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Notifikasi pembayaran</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Riwayat 3 bulan</li>
+        </ul>
+        <a class="btn btn--ghost" href="#daftar">Mulai gratis</a>
+      </article>
+
+      <article class="plan plan--featured">
+        <span class="plan__tag">Paling banyak dipilih</span>
+        <h3 class="plan__name">Toko</h3>
+        <p class="plan__desc">Untuk penjual yang berjualan online dan offline sekaligus, butuh integrasi dan rekonsiliasi rapi.</p>
+        <div class="plan__price"><b>0,5%</b><span>/ transaksi</span></div>
+        <ul class="plan__feat">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Semua di paket Warung</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> QRIS dinamis via API</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Webhook &amp; plugin WooCommerce</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Multi-user kasir</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Ekspor CSV &amp; riwayat 24 bulan</li>
+        </ul>
+        <a class="btn btn--money" href="#daftar">Pilih paket Toko</a>
+      </article>
+
+      <article class="plan">
+        <span class="plan__tag">Skala besar</span>
+        <h3 class="plan__name">Usaha</h3>
+        <p class="plan__desc">Volume tinggi, banyak cabang, atau butuh pencatatan khusus untuk tim keuangan.</p>
+        <div class="plan__price"><b>Nego</b><span>/ sesuai volume</span></div>
+        <ul class="plan__feat">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Semua di paket Toko</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Settlement H+0 (opsional)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Rekonsiliasi multi-outlet</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Account manager</li>
+        </ul>
+        <a class="btn btn--ghost" href="#daftar">Hubungi kami</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TESTIMONI ======================= -->
+<section class="section section--tint">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <p class="eyebrow">Kata pemakai</p>
+      <h2 class="h2">Yang berubah setelah pindah.</h2>
+    </div>
+
+    <div class="quotes" data-reveal>
+      <article class="quote">
+        <p>"Dulu tiap pagi aku harus buka tiga aplikasi cuma buat tahu uang masuk berapa. Sekarang satu halaman, cocok langsung dengan mutasi rekening."</p>
+        <div class="quote__by">
+          <div class="quote__av">RA</div>
+          <div><b>Rani A.</b><span>Kedai kopi · Bandung</span></div>
+        </div>
+      </article>
+
+      <article class="quote">
+        <p>"Yang paling nolong itu settlement otomatis. Nggak ada lagi drama 'kok saldonya belum masuk' pas mau bayar supplier."</p>
+        <div class="quote__by">
+          <div class="quote__av">BS</div>
+          <div><b>Bayu S.</b><span>Toko online · Surabaya</span></div>
+        </div>
+      </article>
+
+      <article class="quote">
+        <p>"Integrasi ke WooCommerce cuma setengah jam, dokumentasinya jelas. Webhook-nya juga stabil, belum pernah telat kirim notifikasi."</p>
+        <div class="quote__by">
+          <div class="quote__av">DP</div>
+          <div><b>Dimas P.</b><span>Butik · Jakarta</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section class="section" id="tanya">
+  <div class="wrap">
+    <div class="split" style="align-items:start">
+      <div data-reveal>
+        <p class="eyebrow">Pertanyaan</p>
+        <h2 class="h2">Hal yang biasanya<br>ditanya dulu.</h2>
+        <p class="lead" style="margin-top:18px">Kalau belum terjawab, kirim pesan ke <a class="link-u" href="mailto:halo@lunas.id">halo@lunas.id</a> — dibalas di hari kerja.</p>
+      </div>
+
+      <div class="faq" id="faq" data-reveal>
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Apakah ini QRIS resmi?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Ya. Transaksi diproses melalui jalur QRIS yang mengikuti standar Bank Indonesia, bekerja sama dengan penyedia jasa pembayaran berizin. Pembeli memakai aplikasi apa pun yang mendukung QRIS.</p></div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Berapa lama dana masuk ke rekening?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Standar T+1: transaksi hari ini diteruskan ke rekeningmu pada hari kerja berikutnya, biasanya sebelum pukul 12.00 WIB. Transaksi akhir pekan masuk pada hari kerja terdekat.</p></div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Ada biaya bulanan atau biaya pendaftaran?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Tidak ada. Paket Warung dan Toko hanya memotong biaya per transaksi (0,7% dan 0,5%). Semua biaya ditampilkan sebelum kamu menyetujui transaksi, tanpa potongan tersembunyi.</p></div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Dokumen apa yang perlu disiapkan?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Untuk perorangan: KTP dan foto tempat usaha. Untuk badan usaha: tambahan NIB atau akta usaha. Verifikasi umumnya selesai dalam 1 hari kerja setelah dokumen lengkap.</p></div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Bisa dipakai untuk toko online?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Bisa. Ada REST API dengan QRIS dinamis per pesanan, webhook status pembayaran, dan plugin untuk WooCommerce. Untuk platform lain, integrasinya tetap bisa lewat HTTP biasa.</p></div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Bagaimana kalau ada pembayaran yang gagal?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Transaksi yang gagal tidak memotong saldo siapa pun. Statusnya tercatat di dashboard dengan alasan penolakan, dan pembeli bisa langsung mengulang pembayaran dengan QR yang sama.</p></div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q" type="button">
+            Bisa refund?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <div class="faq__a"><p>Bisa, lewat dashboard atau API. Refund diproses ke metode pembayaran asal dalam 1–7 hari kerja tergantung penerbit. Di paket Toko, refund bisa otomatis penuh atau sebagian.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CTA AKHIR ======================= -->
+<section class="section" id="daftar" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta" data-reveal>
+      <div>
+        <p class="eyebrow">Mulai hari ini</p>
+        <h2 class="h2">Terima QRIS pertama<br>dalam 10 menit.</h2>
+        <p class="lead" style="margin-top:16px">Daftar, verifikasi, cetak QR. Tidak perlu ganti rekening, tidak perlu alat tambahan.</p>
+      </div>
+      <div class="cta__actions">
+        <a class="btn" href="mailto:halo@lunas.id?subject=Daftar%20Lunas">Daftar sekarang</a>
+        <a class="btn btn--ghost" href="api.html">Baca dokumentasi</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="foot__brand">
+        <a class="brand" href="#atas"><span class="brand__mark">L</span> Lunas</a>
+        <p>Payment gateway QRIS untuk penjual Indonesia. Uang masuk rekening, bukan mengendap di aplikasi.</p>
+      </div>
+
+      <div>
+        <h4>Produk</h4>
+        <ul>
+          <li><a href="#produk">Fitur</a></li>
+          <li><a href="#demo">Coba QRIS</a></li>
+          <li><a href="#harga">Harga</a></li>
+          <li><a href="api.html">API</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Perusahaan</h4>
+        <ul>
+          <li><a href="#cara">Cara kerja</a></li>
+          <li><a href="#tanya">FAQ</a></li>
+          <li><a href="mailto:halo@lunas.id">Kontak</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="legal.html">Syarat &amp; ketentuan</a></li>
+          <li><a href="legal.html#privasi">Kebijakan privasi</a></li>
+          <li><a href="legal.html#biaya">Biaya &amp; limit</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot__bottom">
+      <span>© 2026 Lunas. Contoh halaman produk.</span>
+      <span>QRIS diproses melalui penyedia jasa pembayaran berizin Bank Indonesia.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Tersalin.</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
